@@ -7,6 +7,10 @@ const MyAssignmentRow = ({ assignment }) => {
   const [assignmentData, setAssignmentData] = useState(assignment);
   const { user } = useContext(AuthContext);
 
+  const handleDelete = () => {
+    
+  }
+
   const handleGrade = async () => {
     const { value: marks } = await Swal.fire({
       title: "Enter Marks",
