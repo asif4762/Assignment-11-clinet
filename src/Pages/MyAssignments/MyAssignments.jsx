@@ -17,17 +17,13 @@ const MyAssignments = () => {
 
     return (
         <div>
-            <h1>Your Elements : {data.length}</h1>
+            <h1 className="text-3xl text-center font-bold mb-10">My Assignments </h1>
             <div className="overflow-x-auto">
   <table className="table">
     {/* head */}
     <thead>
       <tr>
-        <th>
-          <label>
-            <input type="checkbox" className="checkbox" />
-          </label>
-        </th>
+        <th></th>
         <th>Name</th>
         <th>Title</th>
         <th>Obtained Marks</th>
