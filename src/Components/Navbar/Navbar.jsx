@@ -14,7 +14,7 @@ const [data, setData] = useState([]);
             fetch(url)
                 .then(res => res.json())
                 .then(data => setData(data))
-    }, []);
+    }, [user, data]);
 
     const handleLogout = () =>{
        logOut()
@@ -78,6 +78,15 @@ const [data, setData] = useState([]);
             {user.displayName || "user name not found"}
           </a>
         </li>
+        <div className='flex flex-col gap-3'>
+        {
+          data.map(dat => <Link to={`/assignments/${dat._id}`} key={dat._id}><button className='btn'>{dat.title.slice(0, 10)}</button></Link>)
+        }
+        </div>
+        {/* {
+  data.map(dat => <li key={dat._id}>{dat.title.slice(0, 10)}</li>)
+} */}
+
         <li><button onClick={handleLogout} className=''>Logout</button></li>
       </ul>
     </div> : <div><Link to={`/login`}><button className ="btn">Login</button></Link></div>
