@@ -110,7 +110,7 @@ const MyAssignmentRow = ({ assignment }) => {
         ) : (
           <div>
             <button onClick={handleGrade} className="btn btn-ghost btn-xs">
-              Grade
+              Give Mark
             </button>
             <Link to={`/update-assignments/${assignment._id}`}>
               <button className="btn btn-ghost btn-xs">Update</button>
