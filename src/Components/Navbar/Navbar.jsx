@@ -51,6 +51,7 @@ const [data, setData] = useState([]);
       <li><NavLink to='/create-assignments'>Create Assignments</NavLink></li>
       <li><NavLink to='/my-assignments'>My Assignments</NavLink></li>
       <li><NavLink to='/pending-assignments'>Pending Assignments</NavLink></li>
+      <li><NavLink to='/all-assignments'>All Assignments</NavLink></li>
       </ul>
     </div>
     <a className="btn btn-ghost text-xl"><img className='w-20 rounded-full' src="https://images-platform.99static.com//ZiLDklPa3LRxVtAqwRNKM6KENr4=/347x0:1034x686/fit-in/500x500/99designs-contests-attachments/75/75199/attachment_75199333" alt="" /></a>
@@ -61,6 +62,7 @@ const [data, setData] = useState([]);
       <li><NavLink to='/create-assignments'>Create Assignments</NavLink></li>
       <li><NavLink to='/my-assignments'>My Assignments</NavLink></li>
       <li><NavLink to='/pending-assignments'>Pending Assignments</NavLink></li>
+      <li><NavLink to='/all-assignments'>All Assignments</NavLink></li>
     </ul>
   </div>
   
