@@ -8,7 +8,22 @@ const MyAssignmentRow = ({ assignment }) => {
   const { user } = useContext(AuthContext);
 
   const handleDelete = () => {
-    
+    fetch(`http://localhost:5500/delete/${assignment._id}`, {
+      method: "DELETE",
+    })
+     .then((res) => res.json())
+     .then((data) => {
+        console.log(data);
+        if (data.deletedCount > 0) {
+          Swal.fire({
+            title: "Assignment Deleted Successfully",
+            text: "You clicked the button!",
+            icon: "success",
+          }).then(() => {
+            window.location.reload();
+          });
+        }
+      });
   }
 
   const handleGrade = async () => {
@@ -68,7 +83,7 @@ const MyAssignmentRow = ({ assignment }) => {
   return (
     <tr>
       <th>
-      <button className="btn btn-circle btn-outline">
+      <button onClick={handleDelete} className="btn btn-circle btn-outline">
   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
 </button>
       </th>
