@@ -1,0 +1,48 @@
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../Firebase/Provider/AuthProvider";
+import MyAssignmentRow from "../../Components/MyAssignmentRows/MyAssignmentRow";
+
+const MyAssignments = () => {
+    const [data, setData] = useState([]);
+    const { user } = useContext(AuthContext);
+
+    const url = `http://localhost:5500/my-assignments?email=${user?.email}`;
+    useEffect(() => {
+            fetch(url)
+                .then(res => res.json())
+                .then(data => setData(data))
+    }, []);
+
+    console.log(data);
+
+    return (
+        <div>
+            <h1>Your Elements : {data.length}</h1>
+            <div className="overflow-x-auto">
+  <table className="table">
+    {/* head */}
+    <thead>
+      <tr>
+        <th>
+          <label>
+            <input type="checkbox" className="checkbox" />
+          </label>
+        </th>
+        <th>Name</th>
+        <th>Title</th>
+        <th>Obtained Marks</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        data.map(assignment => <MyAssignmentRow key={assignment._id} assignment={assignment}></MyAssignmentRow>)
+      }
+    </tbody>
+  </table>
+</div>
+        </div>
+    );
+};
+
+export default MyAssignments;
