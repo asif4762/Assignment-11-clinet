@@ -50,7 +50,7 @@ const CreateAssignment = () => {
 
     return (
       <div className="bg-blue-50 rounded-full w-full">
-      <h1 className="text-3xt font-bold text-center">Create Your Assignment</h1>
+      <h1 className="text-3xl font-bold text-center">Create Your Assignment</h1>
         <form onSubmit={handleCreateAssignment} className="rounded-full mb-10 card-body bg-blue-50">
         <div className="grid grid-cols-2 gap-7">
         <div className="form-control">
