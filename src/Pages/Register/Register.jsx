@@ -1,10 +1,13 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Firebase/Provider/AuthProvider";
 import Swal from "sweetalert2";
 
 
 const Register = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state || '/';
 
     const {createUser} = useContext(AuthContext);
 
@@ -23,6 +26,7 @@ const Register = () => {
                 showConfirmButton: false,
                 timer: 1500
               });
+              navigate(from, {replace: true});
         })
         .catch(error => {
            Swal.fire({
@@ -32,6 +36,7 @@ const Register = () => {
                 showConfirmButton: false,
                 timer: 1500
               });
+              navigate(from, {replace: true});
         })
     } 
 
