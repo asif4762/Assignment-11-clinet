@@ -48,7 +48,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/pending-assignments',
-                element: <PendingAssignments></PendingAssignments>
+                element: <PrivateRoutes><PendingAssignments></PendingAssignments></PrivateRoutes>
             },
             {
                 path: 'all-assignments',

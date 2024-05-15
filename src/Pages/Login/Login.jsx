@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Firebase/Provider/AuthProvider';
 import Swal from 'sweetalert2';
 
 const Login = () => {
-
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state || '/';
     const {signIn, googleLogin} = useContext(AuthContext);
 
     const handleGoogleLogin = () =>{
@@ -17,7 +19,9 @@ const Login = () => {
             showConfirmButton: false,
             timer: 1500
         });
-      })
+        navigate(from, {replace: true});
+      },
+    )
       .catch(error =>{
         Swal.fire({
             position: "center",
@@ -49,6 +53,7 @@ const Login = () => {
                     timer: 1500
                 });
             }
+            navigate(from, {replace: true});
         })
     } 
 
