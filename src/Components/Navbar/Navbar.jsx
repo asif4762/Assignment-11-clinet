@@ -10,10 +10,12 @@ const Navbar = () => {
     const url = `http://localhost:5500/my-assignments?email=${user?.email}`;
 
     useEffect(() => {
-        fetch(url)
+        fetch(url,{
+            credentials: 'include',
+        })
             .then(res => res.json())
             .then(data => setData(data));
-    }, [user, user?.photoURL, user?.displayName, data]);
+    }, [user]);
 
     const handleLogout = () => {
         logOut()
@@ -80,9 +82,14 @@ const Navbar = () => {
                                     </a>
                                 </li>
                                 <div className='flex flex-col gap-3'>
-                                    {
-                                        data?.map(dat => <Link to={`/assignments/${dat._id}`} key={dat._id}><button className='btn'>{dat.title.slice(0, 10)}</button></Link>)
-                                    }
+                                {
+    Array.isArray(data) && data.map(dat => (
+        <Link to={`/assignments/${dat._id}`} key={dat._id}>
+            <button className='btn'>{dat.title.slice(0, 10)}</button>
+        </Link>
+    ))
+}
+
                                 </div>
                                 <li><Link to='update-profile'>Update Profile</Link></li>
                                 <li><button onClick={handleLogout} className=''>Logout</button></li>
