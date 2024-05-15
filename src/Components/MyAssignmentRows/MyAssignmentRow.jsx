@@ -8,23 +8,36 @@ const MyAssignmentRow = ({ assignment }) => {
   const { user } = useContext(AuthContext);
 
   const handleDelete = () => {
-    fetch(`http://localhost:5500/delete/${assignment._id}`, {
-      method: "DELETE",
-    })
-     .then((res) => res.json())
-     .then((data) => {
-        console.log(data);
-        if (data.deletedCount > 0) {
-          Swal.fire({
-            title: "Assignment Deleted Successfully",
-            text: "You clicked the button!",
-            icon: "success",
-          }).then(() => {
-            window.location.reload();
-          });
-        }
-      });
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:5500/delete/${assignment._id}`, {
+          method: "DELETE",
+        })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.deletedCount > 0) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success"
+            }).then(() => {
+              window.location.reload();
+            });
+          }
+        });
+      }
+    });
   }
+  
 
   const handleGrade = async () => {
     const { value: marks } = await Swal.fire({

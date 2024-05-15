@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../AuthProvider/AuthProvider";
+import { AuthContext } from "../../Firebase/Provider/AuthProvider";
 
 const UpdateProfile = () => {
 
