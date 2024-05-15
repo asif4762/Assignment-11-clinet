@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../../Firebase/Provider/AuthProvider";
 
 
+// eslint-disable-next-line react/prop-types
 const PendingSingleData = ({assignment}) => {
 
     const {user} = useContext(AuthContext);
