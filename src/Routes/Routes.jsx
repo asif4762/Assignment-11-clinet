@@ -32,7 +32,7 @@ const router = createBrowserRouter([
             {
                 path: '/assignments/:id',
                 element: <PrivateRoutes><SingleCard></SingleCard></PrivateRoutes>,
-                loader: ({params}) => fetch(`http://localhost:5500/assignments/${params.id}`) 
+                loader: ({params}) => fetch(`https://assignment-11-server-tawny-phi.vercel.app/assignments/${params.id}`) 
             },
             {
                 path: '/create-assignments',

@@ -8,7 +8,7 @@ const MyAssignments = () => {
 
     useEffect(() => {
         if (user && user.email) {
-            const url = `http://localhost:5500/my-assignments?email=${user.email}`;
+            const url = `https://assignment-11-server-tawny-phi.vercel.app/my-assignments?email=${user.email}`;
             fetch(url, {
                 credentials: 'include',
             })
@@ -35,7 +35,7 @@ const MyAssignments = () => {
                     </thead>
                     <tbody>
                         {
-                            data.map(assignment => <MyAssignmentRow key={assignment._id} assignment={assignment}></MyAssignmentRow>)
+                            data?.map(assignment => <MyAssignmentRow key={assignment._id} assignment={assignment}></MyAssignmentRow>)
                         }
                     </tbody>
                 </table>

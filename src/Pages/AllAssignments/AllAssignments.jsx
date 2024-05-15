@@ -5,8 +5,8 @@ const AllAssignments = () => {
 
     const [UserData, setUserData] = useState(null);
 
-    const url = `http://localhost:5500/difficulty-assignments?difficulty_level=Medium`;
-    const url_1 = `http://localhost:5500/assignments`;
+    const url = `https://assignment-11-server-tawny-phi.vercel.app/difficulty-assignments?difficulty_level=Medium`;
+    const url_1 = `https://assignment-11-server-tawny-phi.vercel.app/assignments`;
 
     useEffect(() =>{
         fetch(url_1)
@@ -25,7 +25,7 @@ const AllAssignments = () => {
 
     const handleEasy = (t) => {
         setUserData(null);
-        fetch(`http://localhost:5500/difficulty-assignments?difficulty_level=${t}`)
+        fetch(`https://assignment-11-server-tawny-phi.vercel.app/difficulty-assignments?difficulty_level=${t}`)
         .then(res => res.json())
         .then(data => setUserData(data))
     }

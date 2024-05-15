@@ -18,7 +18,7 @@ const MyAssignmentRow = ({ assignment }) => {
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5500/delete/${assignment._id}`, {
+        fetch(`https://assignment-11-server-tawny-phi.vercel.app/delete/${assignment._id}`, {
           method: "DELETE",
         })
         .then((res) => res.json())
@@ -59,7 +59,7 @@ const MyAssignmentRow = ({ assignment }) => {
     if (marks) {
       console.log("Student obtained marks:", marks);
       const info = { marks: marks };
-      fetch(`http://localhost:5500/update-marks/${assignment._id}`, {
+      fetch(`https://assignment-11-server-tawny-phi.vercel.app/update-marks/${assignment._id}`, {
         method: "PATCH",
         headers: {
           "content-type": "application/json",
@@ -75,7 +75,7 @@ const MyAssignmentRow = ({ assignment }) => {
               text: "You clicked the button!",
               icon: "success",
             }).then(() => {
-              fetch(`http://localhost:5500/assignments/${assignment._id}`)
+              fetch(`https://assignment-11-server-tawny-phi.vercel.app/assignments/${assignment._id}`)
                 .then((res) => res.json())
                 .then((updatedAssignmentData) => {
                   setAssignmentData(updatedAssignmentData);

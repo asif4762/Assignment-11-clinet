@@ -45,7 +45,7 @@ const SingleCard = () => {
         const info = { marks, feedback };
 
         try {
-            const response = await fetch(`http://localhost:5500/update-marks/${assignment._id}`, {
+            const response = await fetch(`https://assignment-11-server-tawny-phi.vercel.app/update-marks/${assignment._id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
