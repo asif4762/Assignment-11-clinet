@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PendingSingleData from './PendingSingleData/PendingSingleData';
 
 const PendingAssignments = () => {
@@ -10,15 +10,9 @@ const PendingAssignments = () => {
     useEffect(() => {
         fetch(url)
         .then(res => res.json())
-        .then(data => {
-            setPendingData(data);
-        });
-    }, [url])
-
-    useEffect(() => {
-        const filteredData = pendingData.filter(assignment => assignment.marks === "");
-        setPendingAssignments(filteredData);
-    }, [pendingData]);
+        .then(data => setPendingAssignments(data))
+    }, []);
+    
 
     console.log(pendingAssignments);
 
@@ -38,9 +32,15 @@ const PendingAssignments = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {
-                            pendingAssignments.map(assignment => <PendingSingleData key={assignment._id} assignment={assignment}></PendingSingleData>)
-                        }
+                    {
+    pendingAssignments.map(assignment => (
+        assignment.marks === "" ?
+        <PendingSingleData key={assignment._id} assignment={assignment} /> :
+        null
+    ))
+}
+
+
                     </tbody>
                 </table>
             </div>

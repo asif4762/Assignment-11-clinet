@@ -21,7 +21,8 @@ const CreateAssignment = () => {
             difficulty_level : difficulty, 
             thumbnail : thumbnail, 
             description : description,
-            email: user.email
+            email: user.email,
+            marks: ""
         };
 
         console.log(info);
