@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Firebase/Provider/AuthProvider";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 
 const Register = () => {
@@ -11,34 +12,42 @@ const Register = () => {
 
     const {createUser} = useContext(AuthContext);
 
-    const handleRegister = e =>{
-        e.preventDefault();
-        const form = e.target;
-        const name = form.name.value;
-        const email = form.email.value;
-        const password = form.password.value;
-        createUser(email, password)
-        .then(result => {
-           Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Your account has been created successfully",
-                showConfirmButton: false,
-                timer: 1500
-              });
-              navigate(from, {replace: true});
-        })
-        .catch(error => {
-           Swal.fire({
-                position: "center",
-                icon: "error",
-                title: "Something went wrong",
-                showConfirmButton: false,
-                timer: 1500
-              });
-              navigate(from, {replace: true});
-        })
-    } 
+    const handleRegister = async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const name = form.name.value;
+      const email = form.email.value;
+      const password = form.password.value;
+  
+      try {
+          const result = await createUser(email, password);
+          Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Your account has been created successfully",
+              showConfirmButton: false,
+              timer: 1500
+          });
+  
+          const { data } = await axios.post('http://localhost:5500/jwt', {
+              email: result.user.email,
+          }, { withCredentials: true });
+  
+          console.log(data);
+          navigate(from, { replace: true });
+      } catch (error) {
+          console.error('Registration error:', error);
+          Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Something went wrong",
+              showConfirmButton: false,
+              timer: 1500
+          });
+          navigate(from, { replace: true });
+      }
+  };
+   
 
     return (
         <div className="hero min-h-screen rounded-full bg-blue-100 mb-10">

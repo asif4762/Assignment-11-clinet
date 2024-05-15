@@ -21,7 +21,7 @@ const Home = () => {
         <h1 className='text-center text-3xl font-bold mt-11'>Features</h1>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-8'>
             {
-                data.map(data=> <Cards key={data.id} data={data}></Cards>)
+                data.map(data=> <Cards key={data._id} data={data}></Cards>)
             }
             </div>
             <h2 className='text-3xl text-center mt-7 font-bold'>Frequently asked questions</h2>

@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Firebase/Provider/AuthProvider';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -9,20 +10,64 @@ const Login = () => {
   const from = location.state || '/';
     const {signIn, googleLogin} = useContext(AuthContext);
 
-    const handleGoogleLogin = () =>{
-      googleLogin()
-      .then(() =>{
-        Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Logged in successfully",
-            showConfirmButton: false,
-            timer: 1500
-        });
-        navigate(from, {replace: true});
-      },
-    )
-      .catch(error =>{
+    const handleGoogleLogin = async () => {
+      try {
+          const result = await googleLogin();
+          const { data } = await axios.post('http://localhost:5500/jwt', {
+              email: result?.user.email,
+          }, {withCredentials: true});
+          console.log(data);
+          Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Logged in successfully",
+              showConfirmButton: false,
+              timer: 1500
+          });
+          navigate(from, { replace: true });
+      } catch (error) {
+          console.error("Google login error:", error);
+          Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Something went wrong",
+              showConfirmButton: false,
+              timer: 1500
+          });
+      }
+  };
+  
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    const info = { email, password };
+    console.log(info);
+
+    try {
+        const result = await signIn(email, password);
+        const user = result.user;
+        if (user.email) {
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Logged in successfully",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+
+        const { data } = await axios.post('http://localhost:5500/jwt', {
+            email: user.email,
+        }, { withCredentials: true });
+
+        console.log(data);
+        navigate(from, { replace: true });
+    } catch (error) {
+        console.error('Login error:', error);
         Swal.fire({
             position: "center",
             icon: "error",
@@ -30,32 +75,9 @@ const Login = () => {
             showConfirmButton: false,
             timer: 1500
         });
-      })
     }
+};
 
-    const handleLogin = e =>{
-        e.preventDefault();
-        const form = e.target;
-        const email = form.email.value;
-        const password = form.password.value;
-
-        const info = {email, password};
-        console.log(info);
-        signIn(email, password)
-        .then(result => {
-            const user = result.user;
-            if(user.email){
-               Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Logged in successfully",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            }
-            navigate(from, {replace: true});
-        })
-    } 
 
     return (
         <div className="hero min-h-screen rounded-full bg-blue-100 mb-10">
