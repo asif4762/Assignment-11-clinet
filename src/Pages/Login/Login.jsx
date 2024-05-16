@@ -13,7 +13,7 @@ const Login = () => {
     const handleGoogleLogin = async () => {
       try {
           const result = await googleLogin();
-          const { data } = await axios.post('http://localhost:5500/jwt', {
+          const { data } = await axios.post('https://assignment-11-server-xi-flame.vercel.app/jwt', {
               email: result?.user.email,
           }, {withCredentials: true});
           console.log(data);
@@ -60,7 +60,7 @@ const Login = () => {
             });
         }
 
-        const { data } = await axios.post('http://localhost:5500/jwt', {
+        const { data } = await axios.post('https://assignment-11-server-xi-flame.vercel.app/jwt', {
             email: user.email,
         }, { withCredentials: true });
 

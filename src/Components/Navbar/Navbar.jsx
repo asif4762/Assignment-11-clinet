@@ -23,7 +23,7 @@ const Navbar = () => {
         }
     }
 
-    const url = `http://localhost:5500/my-assignments?email=${user?.email}`;
+    const url = `https://assignment-11-server-xi-flame.vercel.app/my-assignments?email=${user?.email}`;
 
     useEffect(() => {
         fetch(url)

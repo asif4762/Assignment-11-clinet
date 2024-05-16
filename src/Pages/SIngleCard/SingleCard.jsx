@@ -42,7 +42,7 @@ const SingleCard = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:5500/my-assignments',{
+            const response = await fetch('https://assignment-11-server-xi-flame.vercel.app/my-assignments',{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

@@ -26,7 +26,7 @@ const PendingSingleData = ({ assignment }) => {
     if (marks) {
       const info = { marks: marks };
       try {
-        const response = await fetch(`http://localhost:5500/update-marks/${assignment._id}`, {
+        const response = await fetch(`https://assignment-11-server-xi-flame.vercel.app/update-marks/${assignment._id}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
@@ -44,7 +44,7 @@ const PendingSingleData = ({ assignment }) => {
             window.location.reload();
           })
           .then(() => {
-            fetch(`http://localhost:5500/${assignment._id}`)
+            fetch(`https://assignment-11-server-xi-flame.vercel.app/${assignment._id}`)
               .then((res) => res.json())
               .then((updatedAssignmentData) => {
                 setAssignmentData(updatedAssignmentData);

@@ -37,7 +37,7 @@ const AuthProvider = ({children}) => {
 
     const logOut = async () => {
         setLoading(true);
-        const {data} = await axios('http://localhost:5500/logout',{withCredentials: true})
+        const {data} = await axios('https://assignment-11-server-xi-flame.vercel.app/logout',{withCredentials: true})
         console.log(data);
         return signOut(auth);
     }
