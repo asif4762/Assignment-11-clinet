@@ -8,7 +8,7 @@ const MyAssignments = () => {
 
     useEffect(() => {
         if (user && user.email) {
-            const url = `https://assignment-11-server-tawny-phi.vercel.app/my-assignments?email=${user.email}`;
+            const url = `https://assignment-11-server-xi-flame.vercel.app/my-assignments?email=${user.email}`;
             fetch(url, {
                 credentials: 'include',
             })

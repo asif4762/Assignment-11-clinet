@@ -18,7 +18,7 @@ const UpdateAssignment = () => {
         const description = form.description.value;
         const info = { title, difficulty_level, thumbnail, description,}
         console.log(info);
-        fetch(`https://assignment-11-server-tawny-phi.vercel.app/Update-assignments/${id}`,{
+        fetch(`http://localhost:5500/Update-assignments/${id}`,{
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -34,14 +34,17 @@ const UpdateAssignment = () => {
                 title: "Product Updated Successfully",
                 text: "You clicked the button!",
                 icon: "success"
-              });
+              })
+              .then(() => {
+                window.location.reload();
+              })
               form.reset();
         }
         })
     }
 
     useEffect(() => {
-        fetch(`https://assignment-11-server-tawny-phi.vercel.app/assignments/${id}`)
+        fetch(`http://localhost:5500/assignments/${id}`)
         .then(res => res.json())
         .then(data => setUserData(data))
       }, [id]);

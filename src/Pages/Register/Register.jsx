@@ -29,7 +29,7 @@ const Register = () => {
               timer: 1500
           });
   
-          const { data } = await axios.post('https://assignment-11-server-tawny-phi.vercel.app/jwt', {
+          const { data } = await axios.post('http://localhost:5500/jwt', {
               email: result.user.email,
           }, { withCredentials: true });
   

@@ -7,36 +7,7 @@ const MyAssignmentRow = ({ assignment }) => {
   const [assignmentData, setAssignmentData] = useState(assignment);
   const { user } = useContext(AuthContext);
 
-  const handleDelete = () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        fetch(`https://assignment-11-server-tawny-phi.vercel.app/delete/${assignment._id}`, {
-          method: "DELETE",
-        })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          if (data.deletedCount > 0) {
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your file has been deleted.",
-              icon: "success"
-            }).then(() => {
-              window.location.reload();
-            });
-          }
-        });
-      }
-    });
-  }
+  
   
 
   const handleGrade = async () => {
@@ -59,7 +30,7 @@ const MyAssignmentRow = ({ assignment }) => {
     if (marks) {
       console.log("Student obtained marks:", marks);
       const info = { marks: marks };
-      fetch(`https://assignment-11-server-tawny-phi.vercel.app/update-marks/${assignment._id}`, {
+      fetch(`http://localhost:5500/update-marks/${assignment._id}`, {
         method: "PATCH",
         headers: {
           "content-type": "application/json",
@@ -75,7 +46,7 @@ const MyAssignmentRow = ({ assignment }) => {
               text: "You clicked the button!",
               icon: "success",
             }).then(() => {
-              fetch(`https://assignment-11-server-tawny-phi.vercel.app/assignments/${assignment._id}`)
+              fetch(`http://localhost:5500/${assignment._id}`)
                 .then((res) => res.json())
                 .then((updatedAssignmentData) => {
                   setAssignmentData(updatedAssignmentData);
@@ -96,9 +67,6 @@ const MyAssignmentRow = ({ assignment }) => {
   return (
     <tr>
       <th>
-      <button onClick={handleDelete} className="btn btn-circle btn-outline">
-  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-</button>
       </th>
       <td>
         <div className="flex items-center gap-3">
@@ -116,19 +84,12 @@ const MyAssignmentRow = ({ assignment }) => {
       <td>
         <span className="">{title}</span>
       </td>
-      <td>{assignmentData.marks ? assignmentData.marks : "Not Graded"}</td>
+      <td>{assignmentData.marks ? assignmentData.marks : "Pending"}</td>
       <th>
         {assignmentData.marks ? (
           <h1 className="text-green-500">Graded</h1>
         ) : (
-          <div>
-            <button onClick={handleGrade} className="btn btn-ghost btn-xs">
-              Give Mark
-            </button>
-            <Link to={`/update-assignments/${assignment._id}`}>
-              <button className="btn btn-ghost btn-xs">Update</button>
-            </Link>
-          </div>
+          "Not Graded"
         )}
       </th>
     </tr>

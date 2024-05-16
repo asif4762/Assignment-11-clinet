@@ -5,7 +5,7 @@ const PendingAssignments = () => {
 
     const [pendingData, setPendingData] = useState([]);
     const [pendingAssignments, setPendingAssignments] = useState([]);
-    const url = `https://assignment-11-server-tawny-phi.vercel.app/assignments`;
+    const url = `http://localhost:5500/assignments`;
     
     useEffect(() => {
         fetch(url)

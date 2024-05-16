@@ -9,7 +9,7 @@ const Home = () => {
 
     useEffect(() => {
         // Fetch fake data when the component mounts
-        fetch('https://assignment-11-server-tawny-phi.vercel.app/assignments')
+        fetch('http://localhost:5500/assignments')
         .then(res => res.json())
         .then(data => setData(data)) // Update the state with the fetched FAQs
         .catch(error => console.error('Error fetching data:', error));

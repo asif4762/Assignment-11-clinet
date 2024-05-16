@@ -1,67 +1,63 @@
 import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
+import { AuthContext } from "../../Firebase/Provider/AuthProvider";
+import { useContext } from "react";
 
 const SingleCard = () => {
+    const {user} = useContext(AuthContext);
     const assignment = useLoaderData();
-    const { title, thumbnail, difficulty_level, description, pdfLink, notes } = assignment;
-
+    const { title, thumbnail, difficulty_level, description, notes } = assignment;
     const handleTakeAssignment = async () => {
-        const { value: file } = await Swal.fire({
-            title: "Select image",
-            input: "file",
-            inputAttributes: {
-                "accept": "image/*",
-                "aria-label": "Upload your profile picture"
+        const { value: docUrl } = await Swal.fire({
+          title: "Upload Document",
+          input: "text",
+          inputAttributes: {
+            placeholder: "Enter document URL",
+            "aria-label": "Upload document",
+          },
+          showCancelButton: true,
+          inputValidator: (value) => {
+            if (!value) {
+              return "Document URL cannot be empty!";
             }
+            if (!isValidUrl(value)) {
+              return "Please enter a valid URL!";
+            }
+          },
         });
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                Swal.fire({
-                    title: "Your uploaded picture",
-                    imageUrl: e.target.result,
-                    imageAlt: "The uploaded picture"
-                });
-            };
-            reader.readAsDataURL(file);
+      
+        if (docUrl) {
+          // Handle the document URL, e.g., display or process it
+          Swal.fire({
+            title: "Document URL",
+            text: docUrl,
+            icon: "success",
+          });
         }
-    };
+      };
+      
+      // Function to validate URL format
 
-    const handleGrade = async (e) => {
+    const handlePost = async (e) => {
         e.preventDefault();
 
-        const marks = e.target.elements.marks.value;
-        const feedback = e.target.elements.feedback.value;
-
-        if (!marks || isNaN(marks)) {
-            Swal.fire({
-                title: "Invalid Marks",
-                text: "Please enter a valid number for marks.",
-                icon: "error",
-            });
-            return;
-        }
-
-        const info = { marks, feedback };
-
         try {
-            const response = await fetch(`https://assignment-11-server-tawny-phi.vercel.app/update-marks/${assignment._id}`, {
-                method: "PATCH",
+            const response = await fetch('http://localhost:5500/my-assignments',{
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(info),
+                body: JSON.stringify(assignment)
             });
 
             if (response.ok) {
                 const data = await response.json();
                 if (data.modifiedCount > 0) {
                     Swal.fire({
-                        title: "Assignment Graded Successfully",
+                        title: "Assignment Taken Successfully",
                         text: "Marks have been submitted.",
                         icon: "success",
                     }).then(() => {
-                        // Optionally reload or update data after grading
                     });
                 } else {
                     Swal.fire({
@@ -93,20 +89,16 @@ const SingleCard = () => {
                 <h1 className="text-3xl font-bold text-center mb-10">{title}</h1>
                 <h1 className="text-center mb-10"><span className="text-xl font-bold">Difficulty_Level :</span>{difficulty_level}</h1>
                 <h1 className="mb-10"><span className="font-bold">Assignment : </span>{description}</h1>
-                <button onClick={handleTakeAssignment} className="block mb-4 text-blue-500">View PDF/Docs</button>
+                <button onClick={handleTakeAssignment} className="block mb-4 text-blue-500">Upload Doc/files</button>
                 <div className="mb-4">
                     <span className="font-bold">Notes:</span> {notes}
                 </div>
-                <form onSubmit={handleGrade}>
-                    <div className="mb-4">
-                        <label htmlFor="marks" className="font-bold mr-2">Marks:</label>
-                        <input type="number" id="marks" name="marks" className="border rounded p-2" required />
-                    </div>
+                <form>
                     <div className="mb-4">
                         <label htmlFor="feedback" className="font-bold mr-2">Feedback:</label>
                         <textarea id="feedback" name="feedback" className="border rounded p-2" rows="4"></textarea>
                     </div>
-                    <button type="submit" className="btn w-full mb-10 btn-secondary">Submit Marks</button>
+                    <button onClick={handlePost} type="submit" className="btn w-full mb-10 btn-secondary">Give FeedBack</button>
                 </form>
             </div>
         </div>

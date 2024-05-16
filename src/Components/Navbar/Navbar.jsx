@@ -23,12 +23,10 @@ const Navbar = () => {
         }
     }
 
-    const url = `https://assignment-11-server-tawny-phi.vercel.app/my-assignments?email=${user?.email}`;
+    const url = `http://localhost:5500/my-assignments?email=${user?.email}`;
 
     useEffect(() => {
-        fetch(url,{
-            credentials: 'include',
-        })
+        fetch(url)
             .then(res => res.json())
             .then(data => setData(data));
     }, [user]);

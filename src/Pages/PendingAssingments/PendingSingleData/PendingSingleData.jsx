@@ -1,16 +1,73 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../../Firebase/Provider/AuthProvider";
+import Swal from "sweetalert2";
 
+const PendingSingleData = ({ assignment }) => {
+  const [assignmentData, setAssignmentData] = useState(assignment);
+  const { user } = useContext(AuthContext);
 
-// eslint-disable-next-line react/prop-types
-const PendingSingleData = ({assignment}) => {
+  const handleGrade = async () => {
+    const { value: marks } = await Swal.fire({
+      title: "Enter Marks",
+      input: "text",
+      inputLabel: "Marks",
+      inputPlaceholder: "Enter marks here",
+      showCancelButton: true,
+      inputValidator: (value) => {
+        if (!value) {
+          return "Marks cannot be empty!";
+        }
+        if (isNaN(value)) {
+          return "Marks must be a number!";
+        }
+      },
+    });
 
-    const {user} = useContext(AuthContext);
+    if (marks) {
+      const info = { marks: marks };
+      try {
+        const response = await fetch(`http://localhost:5500/update-marks/${assignment._id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(info),
+        });
+        const data = await response.json();
+        if (data.modifiedCount > 0) {
+          Swal.fire({
+            title: "Assignment Graded Successfully",
+            text: "The assignment has been graded successfully.",
+            icon: "success",
+          })
+          .then(() => {
+            window.location.reload();
+          })
+          .then(() => {
+            fetch(`http://localhost:5500/${assignment._id}`)
+              .then((res) => res.json())
+              .then((updatedAssignmentData) => {
+                setAssignmentData(updatedAssignmentData);
+              })
+              .catch((error) => {
+                console.error("Error fetching updated assignment:", error);
+              });
+          });
+        }
+      } catch (error) {
+        console.error("Error updating marks:", error);
+        Swal.fire({
+          title: "Error",
+          text: "An error occurred while grading the assignment. Please try again later.",
+          icon: "error",
+        });
+      }
+    }
+  };
 
-    return (
-        <tr>
-      <th>
-      </th>
+  return (
+    <tr>
+      <th></th>
       <td>
         <div className="flex items-center gap-3">
           <div className="avatar">
@@ -20,7 +77,7 @@ const PendingSingleData = ({assignment}) => {
           </div>
           <div>
             <div className="font-bold">{user?.displayName || "User name not found"}</div>
-            <div className="text-sm opacity-50">{assignment?.email}</div>
+            <div className="text-sm opacity-50">{assignmentData?.email}</div>
           </div>
         </div>
       </td>
@@ -29,10 +86,17 @@ const PendingSingleData = ({assignment}) => {
       </td>
       <td>{assignment.marks ? assignment.marks : "Not Graded"}</td>
       <th>
-          <h1 className="text-orange-500">Pending</h1>
+        <div className="flex">
+        <h1 className="text-orange-500">Pending</h1>
+        <div>
+          <button onClick={handleGrade} className="btn btn-ghost btn-xs">
+            Give Mark
+          </button>
+        </div>
+        </div>
       </th>
     </tr>
-    );
+  );
 };
 
 export default PendingSingleData;

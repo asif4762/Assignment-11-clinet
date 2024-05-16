@@ -26,7 +26,7 @@ const CreateAssignment = () => {
         };
 
         console.log(info);
-        fetch('https://assignment-11-server-tawny-phi.vercel.app/assignments', {
+        fetch('http://localhost:5500/assignments', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
